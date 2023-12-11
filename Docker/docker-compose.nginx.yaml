@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  nginx:
+    build: 
+      context: .
+      dockerfile: nginx_with_vim.dockerfile
+    image: allmonty/nginx_with_vim
+    container_name: nginx_with_vim
+    networks:
+      - mynet

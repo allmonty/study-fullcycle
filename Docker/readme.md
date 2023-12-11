@@ -1,12 +1,14 @@
 # Docker Course
 
-## Starting
+# Docker
+
+### Starting
 
     # docker ps -> show all running containers
     # docker ps -a -> show all containers running and exited
     # docker run hello-world -> starts a hello-world container
 
-## Executing Ubuntu
+### Executing Ubuntu
 
     # docker run -it --rm ubuntu bash
 
@@ -15,7 +17,7 @@
 "--rm" removes the container from docker ps -a history
 This command will start an Ubuntu image and execute bash
 
-## Publishing ports with Nginx
+### Publishing ports with Nginx
 
     # docker run -p 8080:80 nginx
 
@@ -27,11 +29,11 @@ but will attach the terminal to the nginx logs
 
 "-d" mean detach, avoing terminal to be locked
 
-## Removing Containers
+### Removing Containers
 
     # docker rm <container_name>
 
-## Accessing and Modifying container files
+### Accessing and Modifying container files
 
 With the nginx running
 
@@ -44,7 +46,7 @@ will list all the files in the container
 will access and attach the terminal to the container bash.
 Any modifications will be lost after container stop
 
-## Starting with bind mounts
+### Starting with bind mounts
 
     # docker run -d --name nginx -p 8080:80 -v <path_to_folder_in_host>:<path_to_folder_in_container> nginx
 
@@ -55,7 +57,7 @@ But "-v" is an old command, the current way is using "--mount"
 
 A more explicit way to bind folders
 
-## Working with volumes
+### Working with volumes
 
     # docker volume ls
 
@@ -78,7 +80,7 @@ Creates 2 containers that shares the same volume
 
 deletes the unused volumes
 
-## Docker Images
+### Docker Images
 
 There is a site with many images to download [Docker Hub](hub.docker.com)
 
@@ -88,14 +90,14 @@ Refer to Dockerfile to see how to create an image
 
 Will build the docker file with the passed name with "-t" from the folder "."
 
-## Advancing with Dockerfile
+### Advancing with Dockerfile
 
 WORKDIR -> will define the directory to work in the container as a starting folder
 
 COPY -> copy something from the host to the container
 
 
-## ENTREYPOINT vs CMD
+### ENTREYPOINT vs CMD
 
 CMD -> will execute the command on the container start, but can be overwritten passing a command when calling `docker run`
 
@@ -106,10 +108,53 @@ ENTRYPOINT -> will execute the command on the container start, can't e overwritt
 
 In this example, "World" can be overwritten in the container start. e.g. `docker run <container_name> Allan` will echo "Hello Allan"
 
-## Docker entrypoint exec
+### Docker entrypoint exec
 
-EXPOSE 80 -> exposes the container 80 port to the docker network
+EXPOSE 80 -> exposes the container 80 port to the docker network.
 
-The nginx image has a CMD in the end of the dockerfile that allows us to overwrite the commando as we wish
+The nginx image has a CMD in the end of the dockerfile that allows us to overwrite the commando as we wish.
 
-## 
+### Networks
+
+TBD
+
+### Installing frameworks in a container
+
+
+
+## Docker Compose
+
+    # docker compose up -d
+
+Run the containers described in the docker compose and detach (-d) from the terminal
+
+    # docker compose ps
+
+Show the running containers
+
+    # docker compose down
+
+Stops all the containers described in the dockerfile
+
+    # docker compose up -d --build
+
+"--build" command will build all the containers and start them
+
+### Creating a MySQL database on docker
+
+Use **volumes** to save the database files from docker to the host (pc)
+
+    # docker exec -it db bash
+
+Will attach the terminal to the bash of the container named db
+
+### Dependencies between containers
+
+depends_on -> on version >3 of compose, this only says that the container will wait to start after the other one that it depends on. But in the case of a dependency of a db, it will not ensure to wait until the database is ready.
+
+We can use scripts like [dockerize](https://github.com/jwilder/dockerize) to ensure that we will wait the database to be ready before starting the application that depends on it.
+
+    # dockerize --wait tcp://db:3306
+
+Run this command inside the application container and it will wait until the db is ready
+
