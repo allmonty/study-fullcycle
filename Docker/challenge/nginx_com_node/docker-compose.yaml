@@ -6,8 +6,11 @@ services:
     container_name: database_mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
+    volumes:
+      - ./mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      - MYSQL_DATABASE=example
+      - MYSQL_ROOT_PASSWORD=example
     networks:
       - nginx_with_node_challenge
     healthcheck:
@@ -25,6 +28,8 @@ services:
     depends_on:
       database:
         condition: service_healthy
+    ports:
+      - 3000:3000
       
 
 networks:

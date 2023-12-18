@@ -1,12 +1,23 @@
-var mysql = require('mysql');
+const express = require('express')
+const app = express()
+const port = 3000
 
-var con = mysql.createConnection({
+const mysql = require('mysql');
+const mysql_connection = mysql.createConnection({
   host: "database",
   user: "root",
-  password: "example"
+  password: "example",
+  database: "example"
 });
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
+app.get('/', (req, res) => {
+  mysql_connection.connect(function(err) {
+    if (err) throw err;
+
+    res.send('<h1>Connected</h1>')
+  });
+})
+
+app.listen(port, () => {
+  console.log('Node server listening to ' + port)
+})
