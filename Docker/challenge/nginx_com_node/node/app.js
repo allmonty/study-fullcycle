@@ -1,5 +1,5 @@
 const Express = require('express')
-const MySQL = require('mysql');
+const MySQL = require('mysql2');
 const Chance = require('chance')
 
 
