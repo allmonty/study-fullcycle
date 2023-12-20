@@ -1,21 +1,49 @@
-const express = require('express')
-const app = express()
+const Express = require('express')
+const MySQL = require('mysql');
+const Chance = require('chance')
+
+
+const app = Express()
 const port = 3000
 
-const mysql = require('mysql');
-const mysql_connection = mysql.createConnection({
+const mysql_connection = MySQL.createConnection({
   host: "database",
   user: "root",
   password: "example",
   database: "example"
 });
 
-app.get('/', (req, res) => {
-  mysql_connection.connect(function(err) {
-    if (err) throw err;
+const chance = new Chance()
 
-    res.send('<h1>Connected</h1>')
-  });
+const sql_create_table = `
+  CREATE TABLE IF NOT EXISTS people (
+    name VARCHAR(255)
+  );
+`
+
+const sql_create_random_name = `
+  INSERT INTO people (name) VALUES ("?");
+`
+
+const sql_select_people = `
+  SELECT * FROM people;
+`
+
+app.get('/', (req, res) => {
+  mysql_connection.query(sql_create_table)
+  mysql_connection.query(sql_create_random_name, [chance.name()])
+  
+  let body = '<h1>Full Cycle Rocks!</h1><br><ul>'
+
+  mysql_connection.query(sql_select_people)
+  .on('result', (result) => {
+    body += '<li>' + result.name + '</li>'
+  })
+  .on('end', () => {
+    body += '</ul>'
+
+    res.send(body)
+  })
 })
 
 app.listen(port, () => {

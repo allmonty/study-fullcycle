@@ -40,3 +40,8 @@ Gere o docker-compose de uma forma que basta apenas rodarmos: `docker-compose up
 Suba tudo em um repositório e faça a entrega.
 
 *A linguagem de programação para este desafio é Node/JavaScript.*
+
+### Entrega
+
+O dockerfile está na pasta `./nginx_com_node`.
+Da maneira que eu entendi o problema e resolvi, toda vez que `localhost:8080` for acessado a aplicação cria um nome aleatório, o adiciona na tabela do MySQL e mostra uma lista com todos os nomes registrados no banco de dados.
