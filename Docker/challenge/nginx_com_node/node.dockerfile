@@ -1,9 +1,11 @@
 FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY ./node/. .
+COPY ./node/package.json ./node/package-lock.json ./
 
-RUN npm install
+RUN npm ci
 
-CMD [ "node", "app.js" ]
+COPY ./node/app.js ./
+
+CMD ["npm", "start"]
