@@ -27,11 +27,9 @@ services:
     restart: always
     develop:
       watch:
-        - path: ./node
-          target: /usr/src/app
-          action: sync
-          ignore:
-            - node_modules/
+        - path: ./node/app.js
+          target: /usr/app/app.js
+          action: rebuild
     networks:
       - nginx_with_node_challenge
     depends_on:
