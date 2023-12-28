@@ -24,7 +24,14 @@ services:
       dockerfile: node.dockerfile
     container_name: node_app
     command: npm start
-    restart: always
+    # restart: always
+    tty: true
+    volumes:
+      - type: volume
+        source: ./node
+        target: /usr/src/app
+        volume:
+          nocopy: false
     develop:
       watch:
         - path: ./node
