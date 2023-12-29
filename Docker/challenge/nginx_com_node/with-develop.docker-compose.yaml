@@ -23,11 +23,13 @@ services:
       context: .
       dockerfile: node.dockerfile
     container_name: node_app
-    command: sh -c "npm install && npm start"
+    command: npm start
     restart: always
-    tty: true
-    volumes:
-      - ./node:/usr/src/app
+    develop:
+      watch:
+        - path: ./node/app.js
+          target: /usr/src/app.js
+          action: rebuild
     networks:
       - nginx_with_node_challenge
     depends_on:

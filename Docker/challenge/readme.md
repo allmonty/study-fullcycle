@@ -46,4 +46,4 @@ Suba tudo em um repositório e faça a entrega.
 O dockerfile está na pasta `./nginx_com_node`.
 Da maneira que eu entendi o problema e resolvi, toda vez que `localhost:8080` for acessado a aplicação cria um nome aleatório, o adiciona na tabela do MySQL e mostra uma lista com todos os nomes registrados no banco de dados.
 
-Usando o comando `docker compose watch` é possível subir os serviços e toda a vez que o arquivo `app.js` for alterado, o serviço `node_app` e seus dependentes são rebuildados. Assim é possível desenvolver de forma fácil :D
+<!-- Usando o comando `docker compose watch` é possível subir os serviços e toda a vez que o arquivo `app.js` for alterado, o serviço `node_app` e seus dependentes são rebuildados. Assim é possível desenvolver de forma fácil :D -->

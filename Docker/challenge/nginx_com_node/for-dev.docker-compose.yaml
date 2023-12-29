@@ -23,13 +23,11 @@ services:
       context: .
       dockerfile: node.dockerfile
     container_name: node_app
-    command: npm start
+    command: sh -c "tail -f /dev/null"
     restart: always
-    develop:
-      watch:
-        - path: ./node/app.js
-          target: /usr/app/app.js
-          action: rebuild
+    tty: true
+    volumes:
+      - ./node:/usr/src/app
     networks:
       - nginx_with_node_challenge
     depends_on:
