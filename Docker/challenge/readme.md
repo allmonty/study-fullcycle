@@ -46,4 +46,16 @@ Suba tudo em um repositório e faça a entrega.
 O dockerfile está na pasta `./nginx_com_node`.
 Da maneira que eu entendi o problema e resolvi, toda vez que `localhost:8080` for acessado a aplicação cria um nome aleatório, o adiciona na tabela do MySQL e mostra uma lista com todos os nomes registrados no banco de dados.
 
-<!-- Usando o comando `docker compose watch` é possível subir os serviços e toda a vez que o arquivo `app.js` for alterado, o serviço `node_app` e seus dependentes são rebuildados. Assim é possível desenvolver de forma fácil :D -->
+Para executar, simplesmente rode `docker compose up`
+
+##### Definindo usuários
+
+Em uma conversa entendi que seria bom definir um usuário para que o container não fique rodando em root (questões de segurança). O container do node já possui um usuário node, então eu parti para usa-lo.
+
+Tive problema na hora de usar o **volume**, o usuário node tentava rodar **npm install** porém não conseguia criar a pasta **node_modules** já que o mapeamento do **volume** aponta para uma pasta na máquina do host com outro usuário. Para corrigir isso eu passei o ID do usuário como variável para o build do compose e no dockerfile eu mudo o ID do usuário node. Acho que isso, para desenvolvimento funciona, porém acredito que para prod não seja seguro. O uso de **volume** foi bastante problemático.
+
+Para rodar com essa solução:
+
+    # USER_ID=$UID docker compose -f ./setting-user.docker-compose.yaml build
+
+    # docker compose -f ./setting-user.docker-compose.yaml up

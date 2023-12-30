@@ -19,19 +19,21 @@ services:
       retries: 10
    
   node_app:
-    image: "node:20-alpine"
+    build:
+      context: .
+      dockerfile: setting-user-node.dockerfile
+      args:
+        - USER_ID=$USER_ID
     container_name: node_app
+    user: "node"
+    working_dir: /home/node/app
     command: sh -c "npm install && npm start"
     restart: always
     tty: true
-    working_dir: /usr/src/app
     volumes:
-      - ./node:/usr/src/app
+      - ./node:/home/node/app
     networks:
       - nginx_with_node_challenge
-    depends_on:
-      database:
-        condition: service_healthy
 
   nginx:
     image: nginx:1.24.0-bullseye
